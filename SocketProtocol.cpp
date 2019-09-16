@@ -20,6 +20,7 @@ bool SocketProtocol::Connect(QString hostName, quint16 port)
 //Принимает строку команды
 void SocketProtocol::SendCommand(QString command)
 {
+    //Здесь генерируем эксепшен и пробрасываем ошибку
     _socket->write(command.toUtf8());
     bool res = _socket->waitForBytesWritten();
     QString str = _socket->errorString();
