@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void MainProgram();
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -30,7 +32,13 @@ int main(int argc, char *argv[])
         cout << "fail connecting(" << endl;
     }
 
-
+    
 
     return a.exec();
+}
+
+void MainProgram()
+{
+    
+
 }

@@ -1,5 +1,3 @@
-
-
 #ifndef IPROTOCOL_H
 #define IPROTOCOL_H
 
@@ -8,10 +6,12 @@
 #include <QString>
 #include <QTcpSocket>
 
-//Интерфейс для создания соединения и отправки команд и запросов
+//Интерфейс протокола, который отвечает за соединение
 class IProtocol
 {
+
 public:
+
     //Подключение
     //Если подключение установлено return true, иначе false
     virtual bool Connect(const QString hostName, quint16 port) = 0;
@@ -36,6 +36,7 @@ private:
 
 public:
 
+    //Конструктор по умолчанию
     SocketProtocol();
 
     //Подключение
@@ -51,5 +52,6 @@ public:
     //Возвращает ответ запроса
     virtual QString SendRequest(QString request) override;
 
+    //Деструктор по умолчанию
     virtual ~SocketProtocol() override;
 };
