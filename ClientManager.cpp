@@ -1,10 +1,10 @@
 #include <ClientManager.h>
 
 
-ClientManager::ClientManager(IProtocol *protocol)
+ClientManager::ClientManager(IProtocol *protocol) : _protocol(protocol)
 {
     //TODO: правильно использую указатели ссылки?
-    _protocol = protocol;
+    //_protocol = protocol;
 }
 
 bool ClientManager::Connect(const QString hostName, quint16 port)

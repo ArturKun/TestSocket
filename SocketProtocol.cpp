@@ -1,6 +1,7 @@
 #include <IProtocol.h>
 #include <QTcpSocket>
-
+#include <exception>
+#include <stdexcept>
 
 
 SocketProtocol::SocketProtocol()
@@ -13,17 +14,27 @@ SocketProtocol::SocketProtocol()
 bool SocketProtocol::Connect(QString hostName, quint16 port)
 {
     _socket->connectToHost(hostName, port);
-    return _socket->waitForConnected(1000);
+
+    if(!_socket->waitForConnected())
+    {
+        throw std::runtime_error(_socket->errorString().toUtf8());
+    }
+    else
+    {
+        return true;
+    }
 }
 
 //Отправить команду
 //Принимает строку команды
 void SocketProtocol::SendCommand(QString command)
 {
-    //Здесь генерируем эксепшен и пробрасываем ошибку
     _socket->write(command.toUtf8());
-    bool res = _socket->waitForBytesWritten();
-    QString str = _socket->errorString();
+
+    if(!_socket->waitForBytesWritten())
+    {
+        throw std::runtime_error(_socket->errorString().toUtf8());
+    }
 }
 
 //Отправить запрос
@@ -32,11 +43,23 @@ void SocketProtocol::SendCommand(QString command)
 QString SocketProtocol::SendRequest(QString request)
 {
     QString result;
+
     _socket->write(request.toUtf8());
-    //waitForReadyRead возвращает бул, если тру то збс, если нет то пробросить эксепшен
-    _socket->waitForReadyRead(500);
-    //TODO:может переделать?
-    return result.append(_socket->readAll());
+
+    if(!_socket->waitForBytesWritten())
+    {
+        throw std::runtime_error(_socket->errorString().toUtf8());
+    }
+
+    if(!_socket->waitForReadyRead())
+    {
+        throw std::runtime_error(_socket->errorString().toUtf8());
+    }
+    else
+    {
+        return result.append(_socket->readAll());
+    }
+
 }
 
 SocketProtocol::~SocketProtocol()

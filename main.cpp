@@ -1,8 +1,6 @@
 #include <QCoreApplication>
-//#include <IProtocol.h>
 #include <iostream>
 #include <ClientManager.h>
-
 
 using namespace std;
 
@@ -17,23 +15,32 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    MainProgram();
-
-    a.exit();
-    //return a.exec();
+    try
+    {
+        MainProgram();
+    }
+    catch (std::exception &exception)
+    {
+        cout << ("Error: " + std::string(exception.what()));
+    }
+    a.exit(1);
 }
 
+//Основная программа
 void MainProgram()
 {
     float stimulus;
-    char symbol;
+    string symbol;
 
     bool end = false;
+
+    bool theEnd;
 
     Connect("127.0.0.1", 5025);
 
     while (!end)
     {
+        theEnd = false;
         cout << "Enter the stimulus of the first marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
@@ -54,17 +61,25 @@ void MainProgram()
 
         GetMathStatistics();
 
-        cout << "Exit in the programm (Y/N)?" << endl;
-
-        cin >> symbol;
-
-        if(symbol == 'N')
+        while(!theEnd)
         {
-            end = false;
-        }
-        else if(symbol == 'Y')
-        {
-            end = true;
+            cout << "Exit in the programm (Y/N)?" << endl;
+            cin >> symbol;
+
+            if(symbol == "N")
+            {
+                end = false;
+                theEnd = true;
+            }
+            else if(symbol == "Y")
+            {
+                end = true;
+                theEnd = true;
+            }
+            else
+            {
+                theEnd = false;
+            }
         }
     }
 }
