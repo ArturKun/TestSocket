@@ -1,8 +1,9 @@
 #include <IProtocol.h>
 #include <QTcpSocket>
-#include <exception>
-#include <stdexcept>
+#include <iostream>
 
+
+using namespace std;
 
 SocketProtocol::SocketProtocol()
 {
@@ -64,6 +65,7 @@ QString SocketProtocol::SendRequest(QString request)
 
 SocketProtocol::~SocketProtocol()
 {
-
+    delete _socket;
+    cout << "opaa";
 }
 

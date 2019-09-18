@@ -1,10 +1,8 @@
 #include <ClientManager.h>
 
-
 ClientManager::ClientManager(IProtocol *protocol) : _protocol(protocol)
 {
-    //TODO: правильно использую указатели ссылки?
-    //_protocol = protocol;
+
 }
 
 bool ClientManager::Connect(const QString hostName, quint16 port)
@@ -20,4 +18,9 @@ void ClientManager::SendCommand(QString command)
 QString ClientManager::SendRequest(QString request)
 {
     return _protocol->SendRequest(request);
+}
+
+ClientManager::~ClientManager()
+{
+    delete _protocol;
 }

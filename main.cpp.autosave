@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     }
 
     delete manager;
+    
     a.exit(1);
 }
 
@@ -92,7 +93,7 @@ void Connect(const QString hostName, quint16 port)
     IProtocol* protocol = new SocketProtocol();
 
     manager = new ClientManager(protocol);
-    manager->Connect(hostName, port);
+    (manager)->Connect(hostName, port);
 
     cout << "connection installed." << endl;
 }

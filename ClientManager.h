@@ -18,7 +18,7 @@ public:
 
     //Конструктор принимающий протокол,
     //по которому будет происходить соединение
-    ClientManager(IProtocol *protocol);
+    ClientManager(IProtocol* protocol);
 
     //Установить соединение
     bool Connect(const QString hostName, quint16 port);
@@ -31,4 +31,7 @@ public:
     //Принимает строку запроса
     //Возвращает ответ запроса
     QString SendRequest(QString request);
+
+    //Деструктор
+    ~ClientManager();
 };
