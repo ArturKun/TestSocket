@@ -63,9 +63,9 @@ QString SocketProtocol::SendRequest(QString request)
 
 }
 
+//Деструктор
 SocketProtocol::~SocketProtocol()
 {
     delete _socket;
-    cout << "opaa";
 }
 

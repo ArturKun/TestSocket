@@ -6,8 +6,11 @@ using namespace std;
 
 void MainProgram();
 void Connect(const QString hostName, quint16 port);
-void SetMarker(int markerNumber, float stimulus);
+void SetMarker(int markerNumber, double stimulus);
 void GetMathStatistics();
+bool StringToDouble(string string, double& result);
+
+double EnterFrequency(string string);
 
 static ClientManager* manager;
 
@@ -25,14 +28,16 @@ int main(int argc, char *argv[])
     }
 
     delete manager;
+
     a.exit(1);
 }
 
 //Основная программа
 void MainProgram()
 {
-    float stimulus;
+    string enterStimulus;
     string symbol;
+    double frequency;
 
     bool end = false;
 
@@ -46,20 +51,24 @@ void MainProgram()
         cout << "Enter the stimulus of the first marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
-        cin >> stimulus;
+        cin >> enterStimulus;
+
+        frequency =  EnterFrequency(enterStimulus);
 
         manager->SendCommand("CALCULATE1:MARKER2 ON\n");
 
         manager->SendCommand("CALC1:MST:DOM ON\n");
 
-        SetMarker(1, stimulus);
+        SetMarker(1, frequency);
 
         cout << "Enter the stimulus of the second marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
-        cin >> stimulus;
+        cin >> enterStimulus;
 
-        SetMarker(2, stimulus);
+        frequency =  EnterFrequency(enterStimulus);
+
+        SetMarker(2, frequency);
 
         GetMathStatistics();
 
@@ -92,13 +101,13 @@ void Connect(const QString hostName, quint16 port)
     IProtocol* protocol = new SocketProtocol();
 
     manager = new ClientManager(protocol);
-    manager->Connect(hostName, port);
+    (manager)->Connect(hostName, port);
 
     cout << "connection installed." << endl;
 }
 
 //Установить маркер
-void SetMarker(int markerNumber, float stimulus)
+void SetMarker(int markerNumber, double stimulus)
 {
     long long int frequency =
             static_cast<long long int>(stimulus * 1000000);
@@ -114,6 +123,38 @@ void GetMathStatistics()
 {
     cout << manager->SendRequest("CALC1:MST:DATA?\n").toStdString();
 }
+
+//Конвертировать string в double.
+//Если в строке есть недопустимый символ return false
+bool StringToDouble(string string, double& result)
+{
+    char* endPtr;
+
+    result = strtod(string.data(), &endPtr);
+
+    if(*endPtr)
+    {
+        result = 0;
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+double EnterFrequency(string string)
+{
+    double result;
+    while(!(StringToDouble(string, result)) ||
+          (result > 9000) || (result < 0.1))
+    {
+        cout << "Value entered incorrectly. Repeat frequency entry" << endl;
+        cin >> string;
+    }
+    return result;
+}
+
 
 
 
