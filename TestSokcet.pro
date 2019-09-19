@@ -27,4 +27,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     ClientManager.h \
-    IProtocol.h
+    IProtocol.h \
+    SocketProtocol.h
