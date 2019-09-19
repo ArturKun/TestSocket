@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <ClientManager.h>
+#include <SocketProtocol.h>
 
 using namespace std;
 
@@ -143,6 +144,7 @@ bool StringToDouble(string string, double& result)
     }
 }
 
+//Запрос и проверка введенного стимула
 double EnterFrequency(string string)
 {
     double result;

@@ -1,0 +1,4 @@
+#ifndef SOCKETPROTOCOL_H
+#define SOCKETPROTOCOL_H
+
+#endif // SOCKETPROTOCOL_H
