@@ -2,20 +2,19 @@
 
 ClientManager::ClientManager(IProtocol *protocol) : _protocol(protocol)
 {
-
 }
 
-bool ClientManager::Connect(const QString hostName, quint16 port)
+bool ClientManager::Connect(const QString& hostName, const quint16& port)
 {
     return _protocol->Connect(hostName, port);
 }
 
-void ClientManager::SendCommand(QString command)
+void ClientManager::SendCommand(const QString& command)
 {
     _protocol->SendCommand(command);
 }
 
-QString ClientManager::SendRequest(QString request)
+QString ClientManager::SendRequest(const QString& request)
 {
     return _protocol->SendRequest(request);
 }

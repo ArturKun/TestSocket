@@ -1,8 +1,6 @@
 #ifndef CLIENTMANAGER_H
 #define CLIENTMANAGER_H
 
-#endif // CLIENTMANAGER_H
-
 #include <IProtocol.h>
 
 //Менеджер для подключения и связи
@@ -21,17 +19,19 @@ public:
     ClientManager(IProtocol* protocol);
 
     //Установить соединение
-    bool Connect(const QString hostName, quint16 port);
+    bool Connect(const QString& hostName, const quint16& port);
 
     //Отправить команду
     //Принимает строку команды
-    void SendCommand(QString command);
+    void SendCommand(const QString& command);
 
     //Отправить запрос
     //Принимает строку запроса
     //Возвращает ответ запроса
-    QString SendRequest(QString request);
+    QString SendRequest(const QString& request);
 
     //Деструктор
     ~ClientManager();
 };
+
+#endif // CLIENTMANAGER_H

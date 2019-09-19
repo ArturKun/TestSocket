@@ -7,11 +7,10 @@ using namespace std;
 
 void MainProgram();
 void Connect(const QString hostName, quint16 port);
+double EnterFrequency();
 void SetMarker(int markerNumber, double stimulus);
 void GetMathStatistics();
 bool StringToDouble(string string, double& result);
-
-double EnterFrequency(string string);
 
 static ClientManager* manager;
 
@@ -25,7 +24,7 @@ int main(int argc, char *argv[])
     }
     catch (std::exception &exception)
     {
-        cout << ("Error: " + std::string(exception.what()));
+        cout << ("Error: " + std::string(exception.what()) + ". Reload the program");
     }
 
     delete manager;
@@ -44,17 +43,15 @@ void MainProgram()
 
     bool theEnd;
 
-    Connect("127.0.0.1", 5025);
-
     while (!end)
     {
         theEnd = false;
+        Connect("127.0.0.1", 5025);
+
         cout << "Enter the stimulus of the first marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
-        cin >> enterStimulus;
-
-        frequency =  EnterFrequency(enterStimulus);
+        frequency =  EnterFrequency();
 
         manager->SendCommand("CALCULATE1:MARKER2 ON\n");
 
@@ -65,9 +62,7 @@ void MainProgram()
         cout << "Enter the stimulus of the second marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
-        cin >> enterStimulus;
-
-        frequency =  EnterFrequency(enterStimulus);
+        frequency =  EnterFrequency();
 
         SetMarker(2, frequency);
 
@@ -104,14 +99,37 @@ void Connect(const QString hostName, quint16 port)
     manager = new ClientManager(protocol);
     (manager)->Connect(hostName, port);
 
-    cout << "connection installed." << endl;
+    cout << "Connection installed." << endl;
 }
+
+//Считывание и проверка введенного стимула
+double EnterFrequency()
+{
+    const double minFrequency = 0.1;
+    const double maxFrequency = 9000;
+
+    std::string enterString;
+
+    cin >> enterString;
+
+    double result;
+    while(!(StringToDouble(enterString, result)) ||
+          (result > maxFrequency) || (result < minFrequency))
+    {
+        cout << "Value entered incorrectly. Repeat frequency entry" << endl;
+        cin >> enterString;
+    }
+    return result;
+}
+
 
 //Установить маркер
 void SetMarker(int markerNumber, double stimulus)
 {
+    const int multiplier = 1000000;
+
     long long int frequency =
-            static_cast<long long int>(stimulus * 1000000);
+            static_cast<long long int>(stimulus * multiplier);
 
     manager->SendCommand("CALCULATE1:MARKER" +
                          QString::number(markerNumber) + ":X " +
@@ -119,11 +137,13 @@ void SetMarker(int markerNumber, double stimulus)
                          "\n");
 }
 
+
 //Получить математическую статистику
 void GetMathStatistics()
 {
     cout << manager->SendRequest("CALC1:MST:DATA?\n").toStdString();
 }
+
 
 //Конвертировать string в double.
 //Если в строке есть недопустимый символ return false
@@ -143,21 +163,3 @@ bool StringToDouble(string string, double& result)
         return true;
     }
 }
-
-//Запрос и проверка введенного стимула
-double EnterFrequency(string string)
-{
-    double result;
-    while(!(StringToDouble(string, result)) ||
-          (result > 9000) || (result < 0.1))
-    {
-        cout << "Value entered incorrectly. Repeat frequency entry" << endl;
-        cin >> string;
-    }
-    return result;
-}
-
-
-
-
-

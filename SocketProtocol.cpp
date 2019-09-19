@@ -1,10 +1,10 @@
-#include <IProtocol.h>
+#include <SocketProtocol.h>
 #include <QTcpSocket>
-#include <iostream>
 
 
 using namespace std;
 
+//Конструктор
 SocketProtocol::SocketProtocol()
 {
     _socket = new QTcpSocket();
@@ -12,7 +12,7 @@ SocketProtocol::SocketProtocol()
 
 //Подключение хосту
 //Если подключение установлено return true, иначе false
-bool SocketProtocol::Connect(QString hostName, quint16 port)
+bool SocketProtocol::Connect(const QString& hostName, const quint16& port)
 {
     _socket->connectToHost(hostName, port);
 
@@ -28,7 +28,7 @@ bool SocketProtocol::Connect(QString hostName, quint16 port)
 
 //Отправить команду
 //Принимает строку команды
-void SocketProtocol::SendCommand(QString command)
+void SocketProtocol::SendCommand(const QString& command)
 {
     _socket->write(command.toUtf8());
 
@@ -41,7 +41,7 @@ void SocketProtocol::SendCommand(QString command)
 //Отправить запрос
 //Принимает строку запроса
 //Возвращает ответ запроса
-QString SocketProtocol::SendRequest(QString request)
+QString SocketProtocol::SendRequest(const QString& request)
 {
     QString result;
 
