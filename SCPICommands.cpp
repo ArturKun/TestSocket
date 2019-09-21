@@ -44,6 +44,7 @@ QString SCPICommands::GetMathStatisticsCommand(unsigned short channel)
     return "CALC"+ QString::number(channel) + ":MST:DATA?\n";
 }
 
+//Проверка номера маркера и номера канала
 void SCPICommands::NumberVerification(unsigned short number)
 {
     const unsigned short minNumber = 1;
@@ -51,11 +52,12 @@ void SCPICommands::NumberVerification(unsigned short number)
 
     if(number > maxNumber || number < minNumber)
     {
-        throw std::runtime_error("Channel or marker number entered incorrectly."
+        throw std::invalid_argument("Channel or marker number entered incorrectly."
                                  "Value must be in the range of 1 to 16.");
     }
 }
 
+//Конвертировать bool в QString
 QString SCPICommands::BoolToQString(bool boolean)
 {
     return boolean ? "1" : "0";
