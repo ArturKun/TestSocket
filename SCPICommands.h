@@ -31,7 +31,7 @@ public:
                                                      bool state);
 
     //Получить математическую статистику на канале (1-16)
-    QString static GetMathStatisticsRequest(unsigned short channel);
+    QString static GetMathStatisticsCommand(unsigned short channel);
 };
 
 #endif // SCPICOMMANDS_H

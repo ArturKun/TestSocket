@@ -6,11 +6,16 @@
 
 using namespace std;
 
+//Основная программа
 void MainProgram();
+
+//Установить соединение
 void Connect(const QString hostName, quint16 port);
+
+//Считывание и проверка введенного стимула
 float EnterFrequency();
-void SetMarker(int markerNumber, double stimulus);
-void GetMathStatistics();
+
+//Конвертировать string в double.
 bool StringToFloat(string string, float& result);
 
 static ClientManager* manager;
@@ -42,16 +47,18 @@ void MainProgram()
     bool end = false;
     bool theEnd;
     unsigned short channelNumber = 1;
+
+    Connect("127.0.0.1", 5025);
+
     while (!end)
     {
         theEnd = false;
-        Connect("127.0.0.1", 5025);
 
         cout << "Enter the stimulus of the first marker in MHz, "
                 "in the range 0.1 - 9000 MHz" << endl;
 
         manager->SendCommand(SCPICommands::
-                             SetMarkersStatesCommand(channelNumber, 0, true));
+                             SetMarkersStatesCommand(channelNumber, 1, true));
 
         manager->SendCommand(SCPICommands::
                              SetMathStatisticRangeStateCommand(channelNumber, true));
@@ -70,7 +77,7 @@ void MainProgram()
                              SetMarkerStimulusCommand(channelNumber, 2, frequency));
 
         cout << manager->SendRequest(SCPICommands::
-                                     GetMathStatisticsRequest(channelNumber)).toStdString();
+                                     GetMathStatisticsCommand(channelNumber)).toStdString();
 
         while(!theEnd)
         {
@@ -127,7 +134,7 @@ float EnterFrequency()
 }
 
 //Конвертировать string в double.
-//Если в строке есть недопустимый символ return false
+//Если в строке есть недопустимый символ вернуть false
 bool StringToFloat(string string, float& result)
 {
     char* endPtr;

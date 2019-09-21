@@ -9,7 +9,8 @@ QString SCPICommands::SetMarkersStatesCommand(unsigned short channel,
     NumberVerification(markers);
 
     return "CALCULATE" + QString::number(channel) +
-            ":MARKER" + QString::number(markers) + " " +  BoolToQString(state) + "\n";
+            ":MARKER" + QString::number(markers) + " " +  
+            BoolToQString(state) + "\n";
 }
 
 //Установить положение маркера по оси стимула в МГц, на канале (1-16)
@@ -25,17 +26,18 @@ QString SCPICommands::SetMarkerStimulusCommand(unsigned short channel,
             " Mhz\n";
 }
 
-//Установить состояние диапазона математической статистики
+//Установить состояние диапазона математической статистики (ON/OFF)
 QString SCPICommands::SetMathStatisticRangeStateCommand(unsigned short channel,
                                                         bool state)
 {
     NumberVerification(channel);
 
-    return "CALC" + QString::number(channel) + ":MST:DOM " + BoolToQString(state) + "\n";
+    return "CALC" + QString::number(channel) + ":MST:DOM " + 
+            BoolToQString(state) + "\n";
 }
 
 //Получить математическую статистику на канале (1-16)
-QString SCPICommands::GetMathStatisticsRequest(unsigned short channel)
+QString SCPICommands::GetMathStatisticsCommand(unsigned short channel)
 {
     NumberVerification(channel);
 
