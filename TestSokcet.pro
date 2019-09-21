@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         ClientManager.cpp \
+        SCPICommands.cpp \
         SocketProtocol.cpp \
         main.cpp
 
@@ -28,4 +29,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     ClientManager.h \
     IProtocol.h \
+    SCPICommands.h \
     SocketProtocol.h

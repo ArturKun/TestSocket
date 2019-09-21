@@ -51,7 +51,7 @@ void MainProgram()
                 "in the range 0.1 - 9000 MHz" << endl;
 
         manager->SendCommand(SCPICommands::
-                             SetMarkersStatesCommand(channelNumber, 0, true));
+                             SetMarkersStatesCommand(channelNumber, 1, true));
 
         manager->SendCommand(SCPICommands::
                              SetMathStatisticRangeStateCommand(channelNumber, true));
@@ -70,7 +70,7 @@ void MainProgram()
                              SetMarkerStimulusCommand(channelNumber, 2, frequency));
 
         cout << manager->SendRequest(SCPICommands::
-                                     GetMathStatisticsRequest(channelNumber)).toStdString();
+                                     GetMathStatisticsCommand(channelNumber)).toStdString();
 
         while(!theEnd)
         {
@@ -127,7 +127,7 @@ float EnterFrequency()
 }
 
 //Конвертировать string в double.
-//Если в строке есть недопустимый символ return false
+//Если в строке есть недопустимый символ вернуть false
 bool StringToFloat(string string, float& result)
 {
     char* endPtr;
