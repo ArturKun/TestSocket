@@ -47,10 +47,10 @@ QString SCPICommands::GetMathStatisticsCommand(unsigned short channel)
 //Проверка номера маркера и номера канала
 void SCPICommands::NumberVerification(unsigned short number)
 {
-    const unsigned short minNumber = 1;
-    const unsigned short maxNumber = 16;
+    const unsigned short MIN_NUMBER = 1;
+    const unsigned short MAX_NUMBER = 16;
 
-    if(number > maxNumber || number < minNumber)
+    if(number > MAX_NUMBER || number < MIN_NUMBER)
     {
         throw std::invalid_argument("Channel or marker number entered incorrectly."
                                  "Value must be in the range of 1 to 16.");

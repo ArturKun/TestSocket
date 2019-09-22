@@ -116,8 +116,8 @@ void Connect(const QString hostName, quint16 port)
 //Считывание и проверка введенного стимула
 float EnterFrequency()
 {
-    const float minFrequency = 0.1f;
-    const float maxFrequency = 9000;
+    const float MIN_FREQUENCY = 0.1f;
+    const float MAX_FREQUENCY = 9000;
 
     std::string enterString;
 
@@ -125,7 +125,7 @@ float EnterFrequency()
 
     float result;
     while(!(StringToFloat(enterString, result)) ||
-          (result > maxFrequency) || (result < minFrequency))
+          (result > MAX_FREQUENCY) || (result < MIN_FREQUENCY))
     {
         cout << "Value entered incorrectly. Repeat frequency entry" << endl;
         cin >> enterString;
