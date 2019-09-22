@@ -1,7 +1,6 @@
 #include <SocketProtocol.h>
 #include <QTcpSocket>
 
-
 using namespace std;
 
 //Конструктор

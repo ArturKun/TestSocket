@@ -2,8 +2,9 @@
 #include <SCPICommands.h>
 
 //Установить состояние маркеров (1-16), на канале (1-16)
-QString SCPICommands::SetMarkersStatesCommand(unsigned short channel,
-                                              unsigned short markers, bool state)
+QString SCPICommands::SetMarkersStatesCommand(const unsigned short &channel,
+                                              const unsigned short &markers,
+                                              const bool &state)
 {
     NumberVerification(channel);
     NumberVerification(markers);
@@ -14,8 +15,9 @@ QString SCPICommands::SetMarkersStatesCommand(unsigned short channel,
 }
 
 //Установить положение маркера по оси стимула в МГц, на канале (1-16)
-QString SCPICommands::SetMarkerStimulusCommand(unsigned short channel,
-                                               unsigned short marker, float frequency)
+QString SCPICommands::SetMarkerStimulusCommand(const unsigned short &channel,
+                                               const unsigned short &marker,
+                                               const float &frequency)
 {
     NumberVerification(channel);
     NumberVerification(marker);
@@ -27,8 +29,8 @@ QString SCPICommands::SetMarkerStimulusCommand(unsigned short channel,
 }
 
 //Установить состояние диапазона математической статистики (ON/OFF)
-QString SCPICommands::SetMathStatisticRangeStateCommand(unsigned short channel,
-                                                        bool state)
+QString SCPICommands::SetMathStatisticRangeStateCommand(const unsigned short &channel,
+                                                        const bool &state)
 {
     NumberVerification(channel);
 
@@ -37,7 +39,7 @@ QString SCPICommands::SetMathStatisticRangeStateCommand(unsigned short channel,
 }
 
 //Получить математическую статистику на канале (1-16)
-QString SCPICommands::GetMathStatisticsCommand(unsigned short channel)
+QString SCPICommands::GetMathStatisticsCommand(const unsigned short &channel)
 {
     NumberVerification(channel);
 

@@ -20,6 +20,8 @@ bool StringToFloat(string string, float& result);
 
 static ClientManager* manager;
 
+static IProtocol* protocol;
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -33,6 +35,7 @@ int main(int argc, char *argv[])
         cout << ("Error: " + std::string(exception.what()) + ". Reload the program");
     }
 
+    delete protocol;
     delete manager;
 
     a.exit(1);
@@ -48,7 +51,7 @@ void MainProgram()
     bool theEnd;
     unsigned short channelNumber = 1;
 
-    Connect("127.0.0.1", 5025);
+    Connect("localhost", 5025);
 
     while (!end)
     {
@@ -58,7 +61,7 @@ void MainProgram()
                 "in the range 0.1 - 9000 MHz" << endl;
 
         manager->SendCommand(SCPICommands::
-                             SetMarkersStatesCommand(channelNumber, 1, true));
+                             SetMarkersStatesCommand(channelNumber, 2, true));
 
         manager->SendCommand(SCPICommands::
                              SetMathStatisticRangeStateCommand(channelNumber, true));
@@ -105,12 +108,13 @@ void MainProgram()
 //Установить соединение
 void Connect(const QString hostName, quint16 port)
 {
-    IProtocol* protocol = new SocketProtocol();
+    protocol = new SocketProtocol();
 
     manager = new ClientManager(protocol);
-    (manager)->Connect(hostName, port);
-
-    cout << "Connection installed." << endl;
+    if(manager->Connect(hostName, port))
+    {
+        cout << "Connection installed." << endl;
+    }
 }
 
 //Считывание и проверка введенного стимула
@@ -119,7 +123,7 @@ float EnterFrequency()
     const float MIN_FREQUENCY = 0.1f;
     const float MAX_FREQUENCY = 9000;
 
-    std::string enterString;
+    string enterString;
 
     cin >> enterString;
 

@@ -31,5 +31,4 @@ QString ClientManager::SendRequest(const QString& request)
 //Деструктор
 ClientManager::~ClientManager()
 {
-    delete _protocol;
 }
