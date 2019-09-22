@@ -32,11 +32,14 @@ int main(int argc, char *argv[])
     }
     catch (std::exception &exception)
     {
-        cout << ("Error: " + std::string(exception.what()) + ". Reload the program");
+        cout << ("Error: " + std::string(exception.what()) +
+                 ". Reload the program") << endl;
     }
 
     delete protocol;
     delete manager;
+
+    system("pause");
 
     a.exit(1);
 }
@@ -111,6 +114,9 @@ void Connect(const QString hostName, quint16 port)
     protocol = new SocketProtocol();
 
     manager = new ClientManager(protocol);
+
+    cout << "Connecting..." << endl;
+
     if(manager->Connect(hostName, port))
     {
         cout << "Connection installed." << endl;
